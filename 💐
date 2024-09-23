@@ -3,85 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Te quiero</title>
+    <title>Te quiero Jannete</title>
     <style>
-        body {
-            text-align: center;
-            background-color: #000; /* Fondo negro */
-            font-family: Arial, sans-serif;
-            color: white;
-            overflow: hidden; /* Evita que la página se desplace por las animaciones */
-            position: relative;
-            height: 100vh;
-        }
-        h1 {
-            color: #f1c40f;
-            margin-top: 50px;
-        }
-        p {
-            font-size: 1.5em;
-            color: #ecf0f1;
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+            height: 100%;
         }
 
-        /* Estilo para los girasoles */
-        .sunflower {
+        .girasol {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            background-image: url('https://example.com/sunflower.png'); /* Cambia esta URL por la imagen del girasol */
-            background-size: contain;
-            background-repeat: no-repeat;
-            animation: fall 5s linear infinite;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: yellow;
+            box-shadow: 0 0 0 10px yellow, 0 0 0 20px orange;
         }
 
-        /* Animación de caída */
-        @keyframes fall {
-            0% {
-                top: -100px;
-                transform: rotate(0deg);
-            }
-            100% {
-                top: 100vh;
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Genera múltiples girasoles en posiciones aleatorias */
-        .sunflower:nth-child(1) {
-            left: 10%;
-            animation-duration: 4s;
-        }
-        .sunflower:nth-child(2) {
-            left: 30%;
-            animation-duration: 6s;
-            animation-delay: 1s;
-        }
-        .sunflower:nth-child(3) {
+        .center {
+            position: absolute;
+            top: 50%;
             left: 50%;
-            animation-duration: 5s;
-            animation-delay: 2s;
-        }
-        .sunflower:nth-child(4) {
-            left: 70%;
-            animation-duration: 7s;
-            animation-delay: 3s;
-        }
-        .sunflower:nth-child(5) {
-            left: 90%;
-            animation-duration: 4.5s;
-            animation-delay: 4s;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 48px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Te quiero, pequeña lectora</h1>
-    <p>Eres importante para mí, me encantaría seguir contigo, Mónica &lt;3</p>
 
-    <!-- Girasoles -->
-    <div class="sunflower"></div>
-    <div class="sunflower"></div>
-    <div class="sunflower"></div>
-    <div class="sunflower"></div>
-    <div class="sunflower"></div>
+<div class="center">Te quiero Jannete</div>
+
+<script>
+    const numGirasoles = 20;
+
+    function crearGirasol() {
+        const girasol = document.createElement('div');
+        girasol.classList.add('girasol');
+        document.body.appendChild(girasol);
+        girasol.style.left = Math.random() * window.innerWidth + 'px';
+        girasol.style.top = -50 + 'px';
+        girasol.velocidad = Math.random() * 3 + 1;  // Velocidad entre 1 y 4
+        moverGirasol(girasol);
+    }
+
+    function moverGirasol(girasol) {
+        let y = parseFloat(girasol.style.top);
+
+        function caer() {
+            y += girasol.velocidad;
+            if (y > window.innerHeight) {
+                y = -50;
+                girasol.style.left = Math.random() * window.innerWidth + 'px';
+            }
+            girasol.style.top = y + 'px';
+            requestAnimationFrame(caer);
+        }
+
+        caer();
+    }
+
+    for (let i = 0; i < numGirasoles; i++) {
+        crearGirasol();
+    }
+
+    window.onresize = () => {
+        document.body.querySelectorAll('.girasol').forEach(girasol => {
+            girasol.style.left = Math.random() * window.innerWidth + 'px';
+        });
+    };
+</script>
+
 </body>
 </html>
