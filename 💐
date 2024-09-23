@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Te quiero Jannete</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Pantalla con girasoles cayendo y el mensaje 'Te quiero Jannete'">
+    <title>Nunca es tarde ¿Cierto?</title> <!-- Título añadido -->
+    
     <style>
         body, html {
             margin: 0;
@@ -20,6 +23,7 @@
             border-radius: 50%;
             background-color: yellow;
             box-shadow: 0 0 0 10px yellow, 0 0 0 20px orange;
+            border: 2px solid white; /* Borde adicional */
         }
 
         .center {
@@ -31,16 +35,40 @@
             font-family: Arial, sans-serif;
             font-size: 48px;
             text-align: center;
+            border: 4px solid yellow; /* Borde del texto */
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+        }
+
+        h1 {
+            font-size: 48px;
+            text-align: center;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 36px;
+            text-align: center;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
         }
     </style>
 </head>
 <body>
 
+<!-- Encabezado principal con el nuevo título -->
+<h1>Nunca es tarde ¿Cierto?</h1>
+<h2>Te quiero Jannete</h2>
+
+<!-- Texto en el centro de la pantalla -->
 <div class="center">Te quiero Jannete</div>
 
 <script>
     const numGirasoles = 20;
 
+    // Función para crear girasoles
     function crearGirasol() {
         const girasol = document.createElement('div');
         girasol.classList.add('girasol');
@@ -48,29 +76,44 @@
         girasol.style.left = Math.random() * window.innerWidth + 'px';
         girasol.style.top = -50 + 'px';
         girasol.velocidad = Math.random() * 3 + 1;  // Velocidad entre 1 y 4
+        girasol.direccion = Math.random() < 0.5 ? -1 : 1; // Dirección aleatoria
         moverGirasol(girasol);
     }
 
+    // Función para mover girasoles con dirección variable
     function moverGirasol(girasol) {
         let y = parseFloat(girasol.style.top);
+        let x = parseFloat(girasol.style.left);
 
         function caer() {
             y += girasol.velocidad;
+            x += girasol.direccion * 0.5;  // Mover lateralmente
             if (y > window.innerHeight) {
                 y = -50;
-                girasol.style.left = Math.random() * window.innerWidth + 'px';
+                x = Math.random() * window.innerWidth;
+            }
+            if (x < 0 || x > window.innerWidth - 40) {
+                girasol.direccion *= -1; // Invertir dirección al llegar al borde
             }
             girasol.style.top = y + 'px';
+            girasol.style.left = x + 'px';
             requestAnimationFrame(caer);
         }
 
         caer();
     }
 
+    // Crear múltiples girasoles
     for (let i = 0; i < numGirasoles; i++) {
         crearGirasol();
     }
 
+    // Redireccionar cuando se hace clic en la pantalla
+    document.body.addEventListener('click', function() {
+        window.location.href = 'https://www.google.com'; // Redirigir a Google
+    });
+
+    // Ajustar posición de los girasoles al cambiar el tamaño de la ventana
     window.onresize = () => {
         document.body.querySelectorAll('.girasol').forEach(girasol => {
             girasol.style.left = Math.random() * window.innerWidth + 'px';
@@ -80,3 +123,4 @@
 
 </body>
 </html>
+
